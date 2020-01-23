@@ -1,43 +1,38 @@
-const { User } = require('./db/models');
+import { User, sequelize } from './db/models';
+import moment from 'moment';
+import { DataTypes, Model } from 'sequelize';
 
-function createUser (user) {
 
-}
-
-async function getUserById (id) {
-  try {
-    const user = await User.findByPk(id);
-    if (user) {
-      return user.get();
-    } else {
-      throw new Error('404 resource is not found');
-    }
-
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-getUserById(87)
-  .then(console.log)
-  .catch(console.error);
-
-async function updateUser (id, data) {
-
-  try{
-    const result = await User.update(data{
-      where:{
-        id,
-      },
-      returning: true
-    })
-  }catch (e) {
-    throw e;
-  }
+class Task extends Model {
 
 }
 
-function deleteUser (id) {
+Task.init({
+            value: {
+              type: DataTypes.STRING,
+              allowNull: false,
+              validate: {
+                notEmpty: true,
+              }
+            },
+            deadline: {
+              type: DataTypes.DATE,
+              allowNull: false,
+              validate: {
+                isDate: true,
+                isAfter: moment().format('YYYY-MM-DD'),
+              }
+            },
+            isDone: {
+              type: DataTypes.BOOLEAN,
+              defaultValue: false,
+              allowNull: false
+            }
+          }, {
+            sequelize,
+          });
 
-}
+Task.belongsTo(User);
+User.hasMany(Task);
 
+Task.sync();
