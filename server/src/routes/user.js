@@ -1,13 +1,17 @@
-import express        from 'express';
-import { createUser } from '../controllers/user.controller.js';
-import validateUser   from '../middlewares/user/validateUser.js';
+import express                                                from 'express';
+import { createUser, updateUser }                             from '../controllers/user.controller.js';
+import { validateUserDataOnCreate, validateUserDataOnUpdate } from '../middlewares/user/validateUser.js';
 
 const userRouter = express.Router();
 
 userRouter.post( '/',
-                 validateUser,
-                 createUser );
+                 validateUserDataOnCreate,
+                 createUser
+);
 
-
+userRouter.patch( '/:id',
+                  validateUserDataOnUpdate,
+                  updateUser
+);
 
 export default userRouter;
