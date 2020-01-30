@@ -24,12 +24,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       field: 'passwordHash',
-      validate: {
-        is: PASSWORD_PATTERN
-      },
       set (value) {
         this.setDataValue( 'password', bcrypt.hashSync( value, 10 ) );
-      }
+      },
     },
     email: {
       type: DataTypes.STRING,

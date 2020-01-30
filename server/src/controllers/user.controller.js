@@ -23,9 +23,46 @@ export async function updateUser (req, res, next) {
     } );
 
     if (updatedRowsCount) {
-      return res.send( updatedRows[0] );
+      const data = updatedRows[0].get();
+      delete data.password;
+      return res.send( data );
     }
     next( new Error() );
+  } catch (e) {
+    next( e );
+  }
+}
+
+export async function getUserByPk (req, res, next) {
+  try {
+
+    const foundUser = await User.findByPk( req.params.userId, {
+      attributes: {
+        exclude: ['password']
+      }
+    } );
+
+    if (foundUser) {
+      return res.send( foundUser );
+    }
+    next( new Error() );
+  } catch (e) {
+    next( e );
+  }
+}
+
+export async function deleteUserByPk (req, res, next) {
+  try {
+    const deletedRowCount = await User.destroy( {
+
+                                                  where: {
+                                                    id: req.params.userId
+                                                  }
+                                                } );
+    if (deletedRowCount) {
+      return res.send( `${deletedRowCount}`);
+    }
+    next( '404 Resource not found' );
   } catch (e) {
     next( e );
   }
