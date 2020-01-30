@@ -3,6 +3,8 @@ import userRouter from './user.js';
 
 const router = express.Router();
 
+router.all('*',);
+
 router.use( '/user', userRouter );
 
 export default router;
