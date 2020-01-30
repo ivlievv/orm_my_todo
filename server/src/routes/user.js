@@ -6,7 +6,12 @@ const userRouter = express.Router();
 
 userRouter.post( '/',
                  validateUserDataOnCreate,
-                 createUser
+                 createUser,
+                 createUser,
+                 createUser,
+                 createUser,
+                 createUser,
+                 createUser,
 );
 
 userRouter.get( '/:userId',
@@ -19,5 +24,6 @@ userRouter.patch( '/:userId',
 userRouter.delete( '/:userId',
                    deleteUserByPk
 );
+
 
 export default userRouter;
